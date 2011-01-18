@@ -120,6 +120,10 @@ package flexUnitTests
 			assertThat(list, equalTo([131,110,4,0,177,104,222,58]));				
 		}
 
+		
+		//expect(Bert.binary_to_list(Bert.encode(-987654321))).toEqual([
+		//	131,110,4,1,177,104,222,58
+		// ]);
 		[Test]	
 		public function shouldEncodeLargeNegativeNumbers():void {
 			var encoded:String = Bert.encode(-987654321);
@@ -127,21 +131,22 @@ package flexUnitTests
 			assertThat(list, equalTo([131,110,4,1,177,104,222,58]));				
 		}
 		
+		//.should('encode null', function(){
+		//	expect(Bert.binary_to_list(Bert.encode(null))).toEqual([
+		//		131,100,0,4,110,117,108,108
+		//	])
+		//})
+		
+		[Test]
+		public function shouldEncodeNull():void {
+			var encoded:String = Bert.encode(null);
+			var list:Array = Bert.binaryToList(encoded);
+			assertThat(list, equalTo([131,100,0,4,110,117,108,108]));				
+		}		
+		
+		
+		
 		/*
-
-
-
-				expect(Bert.binary_to_list(Bert.encode(-987654321))).toEqual([
-					131,110,4,1,177,104,222,58
-				]);
-			})
-			
-			.should('encode null', function(){
-				expect(Bert.binary_to_list(Bert.encode(null))).toEqual([
-					131,100,0,4,110,117,108,108
-				])
-			})
-			
 			.should('not encode undefined', function(){
 				expect(function(){
 					Bert.binary_to_list(Bert.encode(undefined))

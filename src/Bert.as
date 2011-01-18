@@ -51,6 +51,9 @@ package
 		}
 		
 		public static function encodeInner(obj:Object):String {
+			if (obj == null) {
+				return encodeAtom(new BertAtom("null"));
+			}
 			if (obj is BertAtom) {
 				return encodeAtom(BertAtom(obj));
 			}

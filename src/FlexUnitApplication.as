@@ -8,6 +8,8 @@ package
 	
 	import flexunit.flexui.FlexUnitTestRunnerUIAS;
 	
+	import org.flexunit.runner.Request;
+	
 	public class FlexUnitApplication extends Sprite
 	{
 		public function FlexUnitApplication()
@@ -25,7 +27,18 @@ package
 		public function currentRunTestSuite():Array
 		{
 			var testsToRun:Array = new Array();
-			testsToRun.push(flexUnitTests.AsbertTest);
+			testsToRun.push(Request.methods(flexUnitTests.AsbertTest,["shouldEncodeBinary",
+				"shouldEncodeNegativeFiveThousand",
+				"shouldEncodeFourtyTwo",
+				"shouldEncodeAtom",
+				"shouldEncodeZero",
+				"shouldEncodeFiveThousand",
+				"shouldEncodeLargeNegativeNumbers",
+				"shouldEncodeNegativeOne",
+				"shouldEncodeBoolean",
+				"shouldEncodeNull",
+				"shouldEncodeLargeNumbers"]));
+			
 			return testsToRun;
 		}
 	}
