@@ -19,6 +19,7 @@ package flexUnitTests
 			var list:Array = Bert.binaryToList(encoded);
 			assertThat(list, equalTo([131,100,0,5,104,101,108,108,111]));
 		}
+		
 		//should('encode binary', function(){
 		//	expect(Bert.binary_to_list(Bert.encode(Bert.binary("hello")))).toEqual([
 		//		131,109,0,0,0,5,104,101,108,108,111
@@ -32,31 +33,63 @@ package flexUnitTests
 			assertThat(list, equalTo([131,109,0,0,0,5,104,101,108,108,111]));
 		}
 		
-			
-		
-	
-			/*
+//		.should('encode boolean', function(){
+//			expect(Bert.binary_to_list(Bert.encode(true))).toEqual([
+//				131,100,0,4,116,114,117,101
+//			]);
+//			expect(Bert.binary_to_list(Bert.encode(false))).toEqual([
+//				131,100,0,5,102,97,108,115,101
+//			]);
+//		})		
+		[Test]
+		public function shouldEncodeBoolean():void {
+			var encodedTruth:String = Bert.encode(true);
+			var trueList:Array = Bert.binaryToList(encodedTruth);
+			assertThat(trueList, equalTo([131,100,0,4,116,114,117,101]));
 
-			.should('encode boolean', function(){
-				expect(Bert.binary_to_list(Bert.encode(true))).toEqual([
-					131,100,0,4,116,114,117,101
-				]);
-				expect(Bert.binary_to_list(Bert.encode(false))).toEqual([
-					131,100,0,5,102,97,108,115,101
-				]);
-			})
-			.should('encode ints', function(){
-				expect(Bert.binary_to_list(Bert.encode(0))).toEqual([
-					131,97,0
-				]);
+			var encodedFalsity:String = Bert.encode(false);
+			var falsityList:Array = Bert.binaryToList(encodedFalsity);
+			assertThat(falsityList, equalTo([131,100,0,5,102,97,108,115,101]));		
+		}
+
+	//	expect(Bert.binary_to_list(Bert.encode(0))).toEqual([
+	//		131,97,0
+	//	]);
+	
+		[Test]
+		public function shouldEncodeZero():void {
+			var encoded:String = Bert.encode(0);
+			var list:Array = Bert.binaryToList(encoded);
+			assertThat(list, equalTo([131,97,0]));			
+		}
+
+		
+	//	expect(Bert.binary_to_list(Bert.encode(-1))).toEqual([
+	//		131,98,255,255,255,255
+	//	]);
+		[Test]
+		public function shouldEncodeNegativeOne():void {
+			var encoded:String = Bert.encode(-1);
+			var list:Array = Bert.binaryToList(encoded);
+			assertThat(list, equalTo([131,98,255,255,255,255]));			
+		}
+
+		//expect(Bert.binary_to_list(Bert.encode(42))).toEqual([
+		//	131,97,42
+		//]);
+		
+		[Test]
+		public function shouldEncodeFourtyTwo():void {
+			var encoded:String = Bert.encode(42);
+			var list:Array = Bert.binaryToList(encoded);
+			assertThat(list, equalTo([131,97,42]));			
+		}		
+		/*
+
 				
-				expect(Bert.binary_to_list(Bert.encode(-1))).toEqual([
-					131,98,255,255,255,255
-				]);
+
 				
-				expect(Bert.binary_to_list(Bert.encode(42))).toEqual([
-					131,97,42
-				]);
+
 				
 				expect(Bert.binary_to_list(Bert.encode(5000))).toEqual([
 					131,98,0,0,19,136

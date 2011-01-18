@@ -36,6 +36,15 @@ package
 			return BINARY + intToBytes(binary.value.toString().length, 4) + binary.value;
 		}
 		
+		public static function encodeBoolean(bool:Boolean):String {
+			if (bool) {
+				return encodeInner(new BertAtom("true"));
+			} else {
+				return encodeInner(new BertAtom("false"));
+			}
+				
+			
+		}
 		public static function encode(obj:Object):String
 		{
 			return BERT_START + encodeInner(obj);
@@ -48,6 +57,12 @@ package
 			if (obj is BertBinary) {
 				return encodeBinary(BertBinary(obj));
 			}			
+			if (obj is Boolean) {
+				return encodeBoolean(Boolean(obj));
+			}
+			if (obj is Number) {
+				return encodeNumber(Number(obj));
+			}
 			
 			return "";
 		}
@@ -83,6 +98,62 @@ package
 			}
 			return s;
 		};
+
+		public static function encodeNumber (Obj:Number):String {
+			var s, isInteger = (Obj % 1 === 0);
+			
+			// Handle floats...
+			if (!isInteger) {
+				return encodeFloat(Obj);
+			}
+			
+			// Small int...
+			if (isInteger && Obj >= 0 && Obj < 256) {
+				return SMALL_INTEGER + intToBytes(Obj, 1);
+			}
+			
+			// 4 byte int...
+			if (isInteger && Obj >= -134217728 && Obj <= 134217727) {
+				return INTEGER + intToBytes(Obj, 4);
+			}
+			
+			// Bignum...
+			s = bignumToBytes(Obj);
+			if (s.length < 256) {
+				return SMALL_BIG + intToBytes(s.length - 1, 1) + s;
+			} else {
+				return LARGE_BIG + intToBytes(s.length - 1, 4) + s;
+			}
+		};
+		
+		public static function encodeFloat (Obj:Number) :String{
+			// float...
+			var s = Obj.toExponential();
+			while (s.length < 31) {
+				s += ZERO;
+			}
+			return FLOAT + s;
+		};		
+		
+		public static function bignumToBytes(Int:Number):String {
+			var isNegative, Rem, s = "";
+			isNegative = Int < 0;
+			if (isNegative) {
+				Int *= -1;
+				s += String.fromCharCode(1);
+			} else {
+				s += String.fromCharCode(0);
+			}
+			
+			while (Int !== 0) {
+				Rem = Int % 256;
+				s += String.fromCharCode(Rem);
+				Int = Math.floor(Int / 256);
+			}
+			
+			return s;
+		};
+		
 		
 	}
 }
