@@ -84,25 +84,53 @@ package flexUnitTests
 			var list:Array = Bert.binaryToList(encoded);
 			assertThat(list, equalTo([131,97,42]));			
 		}		
+
+		
+		//expect(Bert.binary_to_list(Bert.encode(5000))).toEqual([
+		//	131,98,0,0,19,136
+		//]);		
+		[Test]
+		public function shouldEncodeFiveThousand():void {
+			var encoded:String = Bert.encode(5000);
+			var list:Array = Bert.binaryToList(encoded);
+			assertThat(list, equalTo([131,98,0,0,19,136]));			
+		}		
+
+		
+		//expect(Bert.binary_to_list(Bert.encode(-5000))).toEqual([
+		//	131,98,255,255,236,120
+		//]);
+		
+		[Test]
+		public function shouldEncodeNegativeFiveThousand():void {
+			var encoded:String = Bert.encode(-5000);
+			var list:Array = Bert.binaryToList(encoded);
+			assertThat(list, equalTo([131,98,255,255,236,120]));				
+		}
+
+		//expect(Bert.binary_to_list(Bert.encode(987654321))).toEqual([
+		//	131,110,4,0,177,104,222,58
+		//]);
+		
+		
+		[Test]	
+		public function shouldEncodeLargeNumbers():void {
+			var encoded:String = Bert.encode(987654321);
+			var list:Array = Bert.binaryToList(encoded);
+			assertThat(list, equalTo([131,110,4,0,177,104,222,58]));				
+		}
+
+		[Test]	
+		public function shouldEncodeLargeNegativeNumbers():void {
+			var encoded:String = Bert.encode(-987654321);
+			var list:Array = Bert.binaryToList(encoded);
+			assertThat(list, equalTo([131,110,4,1,177,104,222,58]));				
+		}
+		
 		/*
 
-				
 
-				
 
-				
-				expect(Bert.binary_to_list(Bert.encode(5000))).toEqual([
-					131,98,0,0,19,136
-				]);
-				
-				expect(Bert.binary_to_list(Bert.encode(-5000))).toEqual([
-					131,98,255,255,236,120
-				]);
-				
-				expect(Bert.binary_to_list(Bert.encode(987654321))).toEqual([
-					131,110,4,0,177,104,222,58
-				]);
-				
 				expect(Bert.binary_to_list(Bert.encode(-987654321))).toEqual([
 					131,110,4,1,177,104,222,58
 				]);
